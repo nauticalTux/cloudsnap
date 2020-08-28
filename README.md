@@ -14,7 +14,12 @@ The script also uses the AWS configuration file (\~/.aws/config) and the credent
 
     aws configure --profile cloudsnap
 
+## Running
 
+`pipenv run python snapper/snapper.py <command> <--project PROJECT>`
 
+*command* is list, start, or stop
+
+*project* is optional
 
 
