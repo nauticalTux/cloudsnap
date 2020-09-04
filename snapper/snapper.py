@@ -156,13 +156,21 @@ def snapshot_instances(project):
     instances = filter_instances(project)
 
     for i in instances:
-        i.stop()        #### NEEDS WORK... won't stop properly...
+
+        print("Stopping {0}...".format(i.id))
+        i.stop()
+        i.wait_until_stopped()
+
         for v in i.volumes.all():
             snapshot = v.create_snapshot(
                 Description='Snapshot created by CloudSnap'
             )
-            print("Creating snapshot for volume {0} attached to {1}".format(v.id, i.id))
-            print("Snapshot ID: {0}".format(snapshot.id))
+            print("  Creating snapshot for volume {0}".format(v.id))
+            print("  Snapshot ID: {0}".format(snapshot.id))
+
+        print("Starting {0}...".format(i.id))
+        i.start()
+        i.wait_until_running()
 
     return
 
