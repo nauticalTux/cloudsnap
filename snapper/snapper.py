@@ -17,6 +17,10 @@ def filter_instances(project):
 
     return instances
 
+def has_pending_snapshot(volume):
+    snapshots = list(volume.snapshots.all())
+    return snapshots and snapshots[0].state == 'pending'
+
 ## Top level Click group
 @click.group()
 def cli():
@@ -176,6 +180,10 @@ def snapshot_instances(project):
         i.wait_until_stopped()
 
         for v in i.volumes.all():
+            if has_pending_snapshot(v):
+                print(" Skipping snapshot for {0}, snapshot in progress...".format(v.id))
+                continue
+
             snapshot = v.create_snapshot(
                 Description='Snapshot created by CloudSnap'
             )
