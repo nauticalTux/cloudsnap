@@ -23,3 +23,7 @@ The script also uses the AWS configuration file (\~/.aws/config) and the credent
 *project* is optional
 
 
+## Generating a new Python wheel
+
+`pipenv run python setup.py bdist_wheel`
+
